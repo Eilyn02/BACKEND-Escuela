@@ -1,3 +1,10 @@
+"""
+Modelo de base de datos para la entidad Profesor.
+
+Representa a los profesores de la escuela y almacena
+información como nombre, apellido, correo y especialidad.
+"""
+
 from sqlalchemy import Column, Integer, String
 from src.database.config import Base
 
