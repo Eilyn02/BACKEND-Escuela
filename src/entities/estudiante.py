@@ -1,3 +1,9 @@
+"""
+Modelo de base de datos para la entidad Estudiante.
+
+Cada estudiante pertenece a un grado dentro del sistema.
+"""
+
 from sqlalchemy import Column, Integer, String, ForeignKey
 from src.database.config import Base
 
