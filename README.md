@@ -1,22 +1,79 @@
-# BACKEND-Escuela
-Sistema de Información para una Escuela
-## Estructura inicial del proyecto
+SISTEMA DE INFORMACIÓN PARA ESCUELA
+===================================
 
-Se creó la estructura base del proyecto siguiendo una organización por carpetas para:
+Descripción
+-----------
+Este proyecto consiste en una API REST desarrollada con FastAPI para la gestión de una escuela.
 
-- entities (modelos de base de datos)
-- schemas (validación con Pydantic)
-- endpoints (routers de FastAPI)
-- crud (cliente para consumir la API)
-- database (configuración de conexión a la base de datos)
+Permite administrar:
+- Profesores
+- Estudiantes
+- Materias
+- Grados
+- Periodos
+- Notas
 
-## Configuración de base de datos
+La API utiliza PostgreSQL (Neon) como base de datos y SQLAlchemy como ORM.
 
-El proyecto utiliza PostgreSQL en Neon mediante variables de entorno definidas en el archivo .env.
+Tecnologías utilizadas
+----------------------
+- Python
+- FastAPI
+- SQLAlchemy
+- PostgreSQL (Neon)
+- Uvicorn
+- httpx
 
-## Ejecución del proyecto
+Estructura del proyecto
+-----------------------
 
-Para crear las tablas manualmente:
+- entities → modelos de base de datos
+- endpoints → rutas de la API
+- crud → cliente HTTP para consumir la API
+- database → configuración de conexión a la base de datos
 
-```bash
-python init_db.py
+
+Ejecución del proyecto
+----------------------
+
+1. Instalar dependencias:
+
+pip install -r requirements.txt
+
+2. Ejecutar la API:
+
+uvicorn src.app:app --reload
+
+
+Documentación de la API
+-----------------------
+
+La documentación interactiva de la API está disponible en:
+
+http://127.0.0.1:8000/docs
+
+
+Menú por consola
+----------------
+
+El sistema incluye un menú interactivo que permite gestionar las entidades del sistema consumiendo la API mediante httpx.
+
+Ejecutar con:
+
+python main.py
+
+
+Funcionalidades
+---------------
+- CRUD de profesores
+- CRUD de estudiantes
+- CRUD de materias
+- CRUD de grados
+- CRUD de periodos
+- CRUD de notas
+
+
+Autores
+-------
+Luis Miguel Cardona Meneses
+Eilyn Alvarino
