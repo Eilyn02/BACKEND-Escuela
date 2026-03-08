@@ -1,3 +1,10 @@
+"""
+Cliente HTTP para consumir los endpoints de profesores.
+
+Utiliza la librería httpx para enviar solicitudes
+a la API FastAPI desde el menú por consola.
+"""
+
 import httpx
 
 from src.crud.config import BASE_URL
