@@ -8,6 +8,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.database.config import create_tables
+from src.endpoints.estudiante_router import router as estudiante_router
+from src.endpoints.grado_router import router as grado_router
+from src.endpoints.materia_router import router as materia_router
+from src.endpoints.nota_router import router as nota_router
+from src.endpoints.periodo_router import router as periodo_router
+from src.endpoints.profesor_router import router as profesor_router
 
 # Importar modelos para que Base.metadata los conozca
 import src.entities.profesor  # noqa: F401
@@ -31,7 +37,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.include_router(profesor_router)
+app.include_router(estudiante_router)
+app.include_router(materia_router)
+app.include_router(periodo_router)
+app.include_router(grado_router)
+app.include_router(nota_router)
+
 
 @app.get("/")
 def inicio():
     return {"mensaje": "API Escuela", "docs": "/docs"}
+
+    
