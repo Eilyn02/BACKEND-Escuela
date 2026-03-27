@@ -6,6 +6,7 @@ class ProfesorBase(BaseModel):
     apellido: str
     correo: str
     especialidad: str
+    telefono: str | None = None
 
 
 class ProfesorCreate(ProfesorBase):

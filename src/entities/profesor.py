@@ -17,3 +17,4 @@ class Profesor(Base):
     apellido = Column(String, nullable=False)
     correo = Column(String, unique=True, nullable=False)
     especialidad = Column(String, nullable=False)
+    telefono = Column(String, nullable=True)

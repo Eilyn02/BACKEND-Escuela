@@ -20,23 +20,25 @@ def obtener_profesor_por_id(id_profesor):
     return response.json()
 
 
-def crear_profesor(nombre, apellido, correo, especialidad):
+def crear_profesor(nombre, apellido, correo, especialidad, telefono):
     data = {
         "nombre": nombre,
         "apellido": apellido,
         "correo": correo,
         "especialidad": especialidad,
+        "telefono": telefono,
     }
     response = httpx.post(f"{BASE_URL}/profesores/", json=data)
     return response.json()
 
 
-def actualizar_profesor(id_profesor, nombre, apellido, correo, especialidad):
+def actualizar_profesor(id_profesor, nombre, apellido, correo, especialidad, telefono):
     data = {
         "nombre": nombre,
         "apellido": apellido,
         "correo": correo,
         "especialidad": especialidad,
+        "telefono": telefono,
     }
     response = httpx.put(f"{BASE_URL}/profesores/{id_profesor}", json=data)
     return response.json()
