@@ -1,0 +1,2 @@
+ALTER TABLE profesores
+ADD COLUMN IF NOT EXISTS telefono VARCHAR(50);
