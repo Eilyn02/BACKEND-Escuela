@@ -129,8 +129,9 @@ def menu_profesores():
             apellido = input("Apellido: ")
             correo = input("Correo: ")
             especialidad = input("Especialidad: ")
+            telefono = input("Telefono: ")
 
-            print(crear_profesor(nombre, apellido, correo, especialidad))
+            print(crear_profesor(nombre, apellido, correo, especialidad, telefono))
 
         elif opcion == "3":
             # Actualizar información de un profesor existente
@@ -139,8 +140,13 @@ def menu_profesores():
             apellido = input("Apellido: ")
             correo = input("Correo: ")
             especialidad = input("Especialidad: ")
+            telefono = input("Telefono: ")
 
-            print(actualizar_profesor(id_profesor, nombre, apellido, correo, especialidad))
+            print(
+                actualizar_profesor(
+                    id_profesor, nombre, apellido, correo, especialidad, telefono
+                )
+            )
 
         elif opcion == "4":
             # Eliminar un profesor por su ID
@@ -187,7 +193,9 @@ def menu_estudiantes():
             correo = input("Correo: ")
             id_grado = int(input("ID del grado: "))
 
-            print(actualizar_estudiante(id_estudiante, nombre, apellido, correo, id_grado))
+            print(
+                actualizar_estudiante(id_estudiante, nombre, apellido, correo, id_grado)
+            )
 
         elif opcion == "4":
             id_estudiante = int(input("ID del estudiante: "))
@@ -350,7 +358,11 @@ def menu_notas():
             id_materia = int(input("ID de la materia: "))
             id_periodo = int(input("ID del periodo: "))
 
-            print(crear_nota(clasificacion, id_estudiante, id_profesor, id_materia, id_periodo))
+            print(
+                crear_nota(
+                    clasificacion, id_estudiante, id_profesor, id_materia, id_periodo
+                )
+            )
 
         elif opcion == "3":
             id_nota = int(input("ID de la nota: "))
@@ -360,7 +372,16 @@ def menu_notas():
             id_materia = int(input("ID de la materia: "))
             id_periodo = int(input("ID del periodo: "))
 
-            print(actualizar_nota(id_nota, clasificacion, id_estudiante, id_profesor, id_materia, id_periodo))
+            print(
+                actualizar_nota(
+                    id_nota,
+                    clasificacion,
+                    id_estudiante,
+                    id_profesor,
+                    id_materia,
+                    id_periodo,
+                )
+            )
 
         elif opcion == "4":
             id_nota = int(input("ID de la nota: "))
