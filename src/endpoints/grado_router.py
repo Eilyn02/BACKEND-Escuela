@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from src.core.exceptions import NotFoundError
 from src.database.config import get_db
 from src.entities.grado import Grado
 from src.schemas.grado_schema import GradoCreate, GradoResponse
@@ -17,7 +18,7 @@ def obtener_grados(db: Session = Depends(get_db)):
 def obtener_grado(id_grado: int, db: Session = Depends(get_db)):
     grado = db.query(Grado).filter(Grado.id_grado == id_grado).first()
     if not grado:
-        raise HTTPException(status_code=404, detail="Grado no encontrado")
+        raise NotFoundError("Grado no encontrado")
     return grado
 
 
@@ -34,7 +35,7 @@ def crear_grado(grado: GradoCreate, db: Session = Depends(get_db)):
 def actualizar_grado(id_grado: int, grado: GradoCreate, db: Session = Depends(get_db)):
     grado_db = db.query(Grado).filter(Grado.id_grado == id_grado).first()
     if not grado_db:
-        raise HTTPException(status_code=404, detail="Grado no encontrado")
+        raise NotFoundError("Grado no encontrado")
 
     for key, value in grado.model_dump().items():
         setattr(grado_db, key, value)
@@ -48,7 +49,7 @@ def actualizar_grado(id_grado: int, grado: GradoCreate, db: Session = Depends(ge
 def eliminar_grado(id_grado: int, db: Session = Depends(get_db)):
     grado_db = db.query(Grado).filter(Grado.id_grado == id_grado).first()
     if not grado_db:
-        raise HTTPException(status_code=404, detail="Grado no encontrado")
+        raise NotFoundError("Grado no encontrado")
 
     db.delete(grado_db)
     db.commit()

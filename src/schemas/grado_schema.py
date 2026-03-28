@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class GradoBase(BaseModel):
-    nombre: str
+    nombre: str=Field (...,min_length=1)
 
 
 class GradoCreate(GradoBase):

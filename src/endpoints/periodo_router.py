@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from src.core.exceptions import NotFoundError
 from src.database.config import get_db
 from src.entities.periodo import Periodo
 from src.schemas.periodo_schema import PeriodoCreate, PeriodoResponse
@@ -17,7 +18,7 @@ def obtener_periodos(db: Session = Depends(get_db)):
 def obtener_periodo(id_periodo: int, db: Session = Depends(get_db)):
     periodo = db.query(Periodo).filter(Periodo.id_periodo == id_periodo).first()
     if not periodo:
-        raise HTTPException(status_code=404, detail="Periodo no encontrado")
+        raise NotFoundError("Periodo no encontrado")
     return periodo
 
 
@@ -34,7 +35,7 @@ def crear_periodo(periodo: PeriodoCreate, db: Session = Depends(get_db)):
 def actualizar_periodo(id_periodo: int, periodo: PeriodoCreate, db: Session = Depends(get_db)):
     periodo_db = db.query(Periodo).filter(Periodo.id_periodo == id_periodo).first()
     if not periodo_db:
-        raise HTTPException(status_code=404, detail="Periodo no encontrado")
+        raise NotFoundError("Periodo no encontrado")
 
     for key, value in periodo.model_dump().items():
         setattr(periodo_db, key, value)
@@ -48,7 +49,7 @@ def actualizar_periodo(id_periodo: int, periodo: PeriodoCreate, db: Session = De
 def eliminar_periodo(id_periodo: int, db: Session = Depends(get_db)):
     periodo_db = db.query(Periodo).filter(Periodo.id_periodo == id_periodo).first()
     if not periodo_db:
-        raise HTTPException(status_code=404, detail="Periodo no encontrado")
+        raise NotFoundError("Periodo no encontrado")
 
     db.delete(periodo_db)
     db.commit()

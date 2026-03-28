@@ -1,10 +1,10 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class PeriodoBase(BaseModel):
-    nombre: str
-    fecha_inicio: date
+    nombre: str =Field (...,min_length=1)
+    fecha_inicio: date 
     fecha_fin: date
 
 

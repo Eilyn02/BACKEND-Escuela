@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from src.core.exceptions import NotFoundError
 from src.database.config import get_db
 from src.entities.materia import Materia
 from src.schemas.materia_schema import MateriaCreate, MateriaResponse
@@ -17,7 +18,7 @@ def obtener_materias(db: Session = Depends(get_db)):
 def obtener_materia(id_materia: int, db: Session = Depends(get_db)):
     materia = db.query(Materia).filter(Materia.id_materia == id_materia).first()
     if not materia:
-        raise HTTPException(status_code=404, detail="Materia no encontrada")
+        raise NotFoundError("Materia no encontrada")
     return materia
 
 
@@ -34,7 +35,7 @@ def crear_materia(materia: MateriaCreate, db: Session = Depends(get_db)):
 def actualizar_materia(id_materia: int, materia: MateriaCreate, db: Session = Depends(get_db)):
     materia_db = db.query(Materia).filter(Materia.id_materia == id_materia).first()
     if not materia_db:
-        raise HTTPException(status_code=404, detail="Materia no encontrada")
+        raise NotFoundError("Materia no encontrada")
 
     for key, value in materia.model_dump().items():
         setattr(materia_db, key, value)
@@ -48,7 +49,7 @@ def actualizar_materia(id_materia: int, materia: MateriaCreate, db: Session = De
 def eliminar_materia(id_materia: int, db: Session = Depends(get_db)):
     materia_db = db.query(Materia).filter(Materia.id_materia == id_materia).first()
     if not materia_db:
-        raise HTTPException(status_code=404, detail="Materia no encontrada")
+        raise NotFoundError("Materia no encontrada")
 
     db.delete(materia_db)
     db.commit()
