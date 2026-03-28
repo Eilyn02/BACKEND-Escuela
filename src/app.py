@@ -5,7 +5,16 @@ Aplicación FastAPI. Ejecutar con:
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
+
+from src.core.error_handlers import (
+    app_exception_handler,
+    generic_exception_handler,
+    http_exception_handler,
+    validation_exception_handler,
+)
+from src.core.exceptions import AppException
 
 from src.database.config import create_tables
 from src.endpoints.estudiante_router import router as estudiante_router
@@ -14,6 +23,8 @@ from src.endpoints.materia_router import router as materia_router
 from src.endpoints.nota_router import router as nota_router
 from src.endpoints.periodo_router import router as periodo_router
 from src.endpoints.profesor_router import router as profesor_router
+
+
 
 # Importar modelos para que Base.metadata los conozca
 import src.entities.profesor  # noqa: F401
@@ -37,6 +48,13 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Registrar manejadores globales de errores
+app.add_exception_handler(AppException, app_exception_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, generic_exception_handler)
+
+# registrar routers
 app.include_router(profesor_router)
 app.include_router(estudiante_router)
 app.include_router(materia_router)
@@ -45,8 +63,14 @@ app.include_router(grado_router)
 app.include_router(nota_router)
 
 
+
+
 @app.get("/")
 def inicio():
-    return {"mensaje": "API Escuela", "docs": "/docs"}
+    return {
+        "success": True,
+        "message": "API Escuela",
+        "data": {"docs": "/docs"}
+    }
 
     
