@@ -20,14 +20,20 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("Se requiere DATABASE_URL en las variables de entorno")
 
+
 # Crear el motor de SQLAlchemy
-engine = create_engine(
-    DATABASE_URL,
-    echo=False,  # Cambiar a True para ver consultas SQL
-    pool_pre_ping=True,  # Verificar conexión antes de usar
-    pool_recycle=300,  # Reciclar conexiones cada 5 minutos
-    connect_args={"sslmode": "require"},  # Requerir SSL para Neon
-)
+# Si la base de datos es local (por ejemplo en GitHub Actions),
+# no se fuerza SSL. Si es una conexión remota como Neon, sí.
+engine_kwargs = {
+    "echo": False,
+    "pool_pre_ping": True,
+    "pool_recycle": 300,
+}
+
+if "localhost" not in DATABASE_URL and "127.0.0.1" not in DATABASE_URL:
+    engine_kwargs["connect_args"] = {"sslmode": "require"}
+
+engine = create_engine(DATABASE_URL, **engine_kwargs)
 
 # Crear la sesión
 SessionLocal = sessionmaker[Session](autocommit=False, autoflush=False, bind=engine)
