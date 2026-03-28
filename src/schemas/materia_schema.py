@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MateriaBase(BaseModel):
-    nombre: str
-    id_profesor: int
+    nombre: str=Field (...,min_length=1)
+    id_profesor: int =Field (...,gt=0)
 
 
 class MateriaCreate(MateriaBase):

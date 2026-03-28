@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from src.core.exceptions import NotFoundError
 from src.database.config import get_db
 from src.entities.nota import Nota
 from src.schemas.nota_schema import NotaCreate, NotaResponse
@@ -17,7 +18,7 @@ def obtener_notas(db: Session = Depends(get_db)):
 def obtener_nota(id_nota: int, db: Session = Depends(get_db)):
     nota = db.query(Nota).filter(Nota.id_nota == id_nota).first()
     if not nota:
-        raise HTTPException(status_code=404, detail="Nota no encontrada")
+        raise NotFoundError("Nota no encontrada")
     return nota
 
 
@@ -34,7 +35,7 @@ def crear_nota(nota: NotaCreate, db: Session = Depends(get_db)):
 def actualizar_nota(id_nota: int, nota: NotaCreate, db: Session = Depends(get_db)):
     nota_db = db.query(Nota).filter(Nota.id_nota == id_nota).first()
     if not nota_db:
-        raise HTTPException(status_code=404, detail="Nota no encontrada")
+        raise NotFoundError("Nota no encontrada")
 
     for key, value in nota.model_dump().items():
         setattr(nota_db, key, value)
@@ -48,7 +49,7 @@ def actualizar_nota(id_nota: int, nota: NotaCreate, db: Session = Depends(get_db
 def eliminar_nota(id_nota: int, db: Session = Depends(get_db)):
     nota_db = db.query(Nota).filter(Nota.id_nota == id_nota).first()
     if not nota_db:
-        raise HTTPException(status_code=404, detail="Nota no encontrada")
+        raise NotFoundError("Nota no encontrada")
 
     db.delete(nota_db)
     db.commit()
