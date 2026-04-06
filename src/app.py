@@ -23,7 +23,7 @@ from src.endpoints.materia_router import router as materia_router
 from src.endpoints.nota_router import router as nota_router
 from src.endpoints.periodo_router import router as periodo_router
 from src.endpoints.profesor_router import router as profesor_router
-
+from src.endpoints.auth_router import router as auth_router
 
 
 # Importar modelos para que Base.metadata los conozca
@@ -33,6 +33,7 @@ import src.entities.materia  # noqa: F401
 import src.entities.periodo  # noqa: F401
 import src.entities.grado  # noqa: F401
 import src.entities.nota  # noqa: F401
+import src.entities.usuario  # noqa: F401
 
 
 @asynccontextmanager
@@ -61,16 +62,9 @@ app.include_router(materia_router)
 app.include_router(periodo_router)
 app.include_router(grado_router)
 app.include_router(nota_router)
-
-
+app.include_router(auth_router)
 
 
 @app.get("/")
 def inicio():
-    return {
-        "success": True,
-        "message": "API Escuela",
-        "data": {"docs": "/docs"}
-    }
-
-    
+    return {"success": True, "message": "API Escuela", "data": {"docs": "/docs"}}

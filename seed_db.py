@@ -6,10 +6,34 @@ from src.entities.grado import Grado
 from src.entities.periodo import Periodo
 from src.entities.profesor import Profesor
 
+from src.core.security import hash_password
+from src.entities.usuario import Usuario
+
 # Importar modelos
 import src.entities.estudiante  # noqa: F401
 import src.entities.materia  # noqa: F401
 import src.entities.nota  # noqa: F401
+
+
+def seed_usuario(db):
+    """
+    Inserta un usuario administrador por defecto si no existe.
+    """
+    existe = db.query(Usuario).filter(Usuario.correo == "admin@escuela.com").first()
+
+    if not existe:
+        db.add(
+            Usuario(
+                nombre="Administrador",
+                correo="admin@escuela.com",
+                password_hash=hash_password("Admin123*"),
+                rol="admin",
+                activo=True,
+            )
+        )
+        db.commit()
+
+    print("Usuario administrador verificado correctamente.")
 
 
 def seed_grados(db):
@@ -76,6 +100,7 @@ def run_seed():
         seed_grados(db)
         seed_periodo(db)
         seed_profesor(db)
+        seed_usuario(db)
         print("Seed ejecutado correctamente.")
     finally:
         db.close()
