@@ -5,6 +5,8 @@ from src.core.exceptions import NotFoundError, ConflictError
 from src.database.config import get_db
 from src.entities.profesor import Profesor
 from src.schemas.profesor_schema import ProfesorCreate, ProfesorResponse
+from src.core.security import get_current_user
+from src.entities.usuario import Usuario
 
 router = APIRouter(prefix="/profesores", tags=["Profesores"])
 
@@ -23,8 +25,14 @@ def obtener_profesor(id_profesor: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=ProfesorResponse)
-def crear_profesor(profesor: ProfesorCreate, db: Session = Depends(get_db)):
-    existe_correo = db.query(Profesor).filter(Profesor.correo == profesor.correo).first()
+def crear_profesor(
+    profesor: ProfesorCreate,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_user),
+):
+    existe_correo = (
+        db.query(Profesor).filter(Profesor.correo == profesor.correo).first()
+    )
     if existe_correo:
         raise ConflictError("Ya existe un profesor con ese correo")
 
@@ -36,7 +44,12 @@ def crear_profesor(profesor: ProfesorCreate, db: Session = Depends(get_db)):
 
 
 @router.put("/{id_profesor}", response_model=ProfesorResponse)
-def actualizar_profesor(id_profesor: int, profesor: ProfesorCreate, db: Session = Depends(get_db)):
+def actualizar_profesor(
+    id_profesor: int,
+    profesor: ProfesorCreate,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_user),
+):
     profesor_db = db.query(Profesor).filter(Profesor.id_profesor == id_profesor).first()
     if not profesor_db:
         raise NotFoundError("Profesor no encontrado")
@@ -50,7 +63,11 @@ def actualizar_profesor(id_profesor: int, profesor: ProfesorCreate, db: Session 
 
 
 @router.delete("/{id_profesor}")
-def eliminar_profesor(id_profesor: int, db: Session = Depends(get_db)):
+def eliminar_profesor(
+    id_profesor: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_user),
+):
     profesor_db = db.query(Profesor).filter(Profesor.id_profesor == id_profesor).first()
     if not profesor_db:
         raise NotFoundError("Profesor no encontrado")
