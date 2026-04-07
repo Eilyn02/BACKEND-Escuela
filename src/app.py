@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.core.error_handlers import (
     app_exception_handler,
@@ -47,6 +48,22 @@ app = FastAPI(
     description="API con FastAPI, SQLAlchemy y PostgreSQL para la gestión de una escuela",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+# Configuración de CORS para permitir consumo desde frontend local
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Registrar manejadores globales de errores
