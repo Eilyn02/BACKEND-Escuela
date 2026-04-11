@@ -123,6 +123,7 @@ Prueba básica
 tests/test_app.py
 
 Video:
+https://youtu.be/j2pTZtoDEhY
 
 
 Autores
