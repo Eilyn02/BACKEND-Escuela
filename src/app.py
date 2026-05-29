@@ -26,7 +26,6 @@ from src.endpoints.periodo_router import router as periodo_router
 from src.endpoints.profesor_router import router as profesor_router
 from src.endpoints.auth_router import router as auth_router
 
-
 # Importar modelos para que Base.metadata los conozca
 import src.entities.profesor  # noqa: F401
 import src.entities.estudiante  # noqa: F401
