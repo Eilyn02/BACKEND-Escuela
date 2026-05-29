@@ -26,7 +26,6 @@ from src.endpoints.periodo_router import router as periodo_router
 from src.endpoints.profesor_router import router as profesor_router
 from src.endpoints.auth_router import router as auth_router
 
-
 # Importar modelos para que Base.metadata los conozca
 import src.entities.profesor  # noqa: F401
 import src.entities.estudiante  # noqa: F401
@@ -58,6 +57,7 @@ origins = [
     "http://localhost:5500",
     "http://localhost:4200",
     "http://127.0.0.1:4200",
+    "https://frontend-escuela-2026-itm.web.app",
 ]
 
 app.add_middleware(
