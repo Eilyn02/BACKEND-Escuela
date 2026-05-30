@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from src.core.exceptions import NotFoundError, ConflictError
 from src.database.config import get_db
@@ -72,6 +73,15 @@ def eliminar_profesor(
     if not profesor_db:
         raise NotFoundError("Profesor no encontrado")
 
-    db.delete(profesor_db)
-    db.commit()
-    return {"message": "Profesor eliminado correctamente"}
+    try:
+        db.delete(profesor_db)
+        db.commit()
+
+        return {"message": "Profesor eliminado correctamente"}
+
+    except IntegrityError:
+        db.rollback()
+
+        raise ConflictError(
+            "No se puede eliminar el profesor porque tiene materias o notas asociadas."
+        )
