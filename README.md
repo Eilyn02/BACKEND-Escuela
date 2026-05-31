@@ -242,17 +242,20 @@ Backend finalizado con:
 - Tests aprobados
 - Swagger operativo
 
-Próximos pasos
---------------
+Estado final del proyecto
 
-- Desarrollo del frontend
-- Integración completa frontend-backend
-- Firebase Hosting
-- Mejoras visuales
-- Roles y permisos
-- Dashboard administrativo
+El proyecto se encuentra finalizado y cuenta con:
 
-
+- Backend desarrollado con FastAPI.
+- Base de datos PostgreSQL en Neon.
+- Autenticación JWT.
+- Endpoints protegidos.
+- Pruebas automatizadas con Pytest.
+- Pipeline CI/CD mediante GitHub Actions.
+- Despliegue en Render.
+- Frontend desarrollado en Angular.
+- Despliegue en Firebase Hosting.
+- CRUD funcional de profesores consumiendo la API desplegada.
 
 Video:
 https://youtu.be/j2pTZtoDEhY
